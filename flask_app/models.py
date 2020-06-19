@@ -72,6 +72,8 @@ class Round(db.Model):
 class Course(db.Model):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False)
+    #TODO location
     rounds = db.relationship('Round', backref="course", lazy=True)
     holes = db.relationship('Hole', backref="course", lazy=True)
     tees = db.relationship('Tee', backref="course", lazy=True)

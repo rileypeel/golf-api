@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
+from flask_app.errors import bad_request, not_found, not_authorized
 import os
 
 db = SQLAlchemy()
@@ -27,6 +28,11 @@ def create_app(test_config=None):
         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
         return response
 
+    app.register_error_handler(404, not_found)
+    app.register_error_handler(400, bad_request)
+    app.register_error_handler(401, not_authorized)
+    from flask_app.views import course_bp
+    app.register_blueprint(course_bp)
     return app
 
 
