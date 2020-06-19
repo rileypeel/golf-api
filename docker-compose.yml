@@ -5,7 +5,7 @@ services:
     build:
       context: .
     environment: 
-      - SQLALCHEMY_DATABASE_URI=postgres://test:password@db:5432/db
+      - SQLALCHEMY_DATABASE_URI=postgres://test:password@db:5432/testdb
     ports: 
       - "5000:5000"
     volumes: 
@@ -15,6 +15,6 @@ services:
   db:
     image: postgres:10-alpine
     environment:
-      - POSTGRES_DB=db
+      - POSTGRES_DB=testdb
       - POSTGRES_USER=test
       - POSTGRES_PASSWORD=password

@@ -12,8 +12,11 @@ RUN apk del .tmp-build-deps
 
 COPY . .
 
+
 ENV FLASK_APP=flask_app
 ENV FLASK_ENV=development
+RUN pip install -e .
+
 EXPOSE 5000
 
 CMD ["flask", "run", "--host=0.0.0.0"]

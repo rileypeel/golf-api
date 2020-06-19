@@ -10,14 +10,18 @@ migrate = Migrate()
 def create_app(test_config=None):
     """Initialize flask application"""
     app = Flask(__name__)
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
+    if test_config:
+        app.config["SQLALCHEMY_DATABASE_URI"] = test_config["TEST_DB_URI"]
+        app.config["TESTING"] = True
+    else:
+        app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get('SQLALCHEMY_DATABASE_URI')
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
     db.init_app(app)
     migrate.init_app(app, db)
     CORS(app)
 
-    @app.after_request()
+    @app.after_request
     def after_request(response):
         response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorizatino')
         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
