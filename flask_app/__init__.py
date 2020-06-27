@@ -24,13 +24,14 @@ def create_app(test_config=None):
 
     @app.after_request
     def after_request(response):
-        response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorizatino')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
         response.headers.add('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS')
         return response
 
     app.register_error_handler(404, not_found)
     app.register_error_handler(400, bad_request)
     app.register_error_handler(401, not_authorized)
+
     from flask_app.views import course_bp
     app.register_blueprint(course_bp)
     return app
