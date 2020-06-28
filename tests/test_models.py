@@ -67,7 +67,7 @@ class ModelTestCase(unittest.TestCase):
         self.db.session.add(hole)
         self.db.session.commit()
         hole_format = hole.format()
-        self.assertEqual(hole_format['course_id'], course.id)
+        self.assertEqual(hole_format['course_id'], course_id)
         self.assertEqual(hole_format['number'], number)
         self.assertEqual(hole_format['par'], par)
 
@@ -85,7 +85,7 @@ class ModelTestCase(unittest.TestCase):
         yardage2 = models.Yardage(hole=hole, tee=tee2, yardage=400)
         self.db.session.commit()
         hole_format = hole.detail_format()
-        self.assertEqual(hole_format['course_id'], course.id)
+        self.assertEqual(hole_format['course_id'], course_id)
         self.assertEqual(hole_format['number'], number)
         self.assertEqual(hole_format['par'], par)
         self.assertEqual(2, len(hole_format['tees']))

@@ -32,7 +32,7 @@ def create_app(test_config=None):
     app.register_error_handler(400, bad_request)
     app.register_error_handler(401, not_authorized)
 
-    from flask_app.views import course_bp
+    from flask_app.course_views import course_bp
     app.register_blueprint(course_bp)
     return app
 

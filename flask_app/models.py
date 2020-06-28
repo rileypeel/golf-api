@@ -104,7 +104,7 @@ class Course(db.Model):
     __tablename__ = 'courses'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(), nullable=False)
-    location = db.Column(db.String(), nullable=True)
+    location = db.Column(db.String(), nullable=False)
     rounds = db.relationship('Round', backref="course", lazy=True)
     holes = db.relationship('Hole', backref="course", lazy=True)
     tees = db.relationship('Tee', backref="course", lazy=True)
@@ -144,8 +144,8 @@ class Yardage(db.Model):
 
 class Tee(db.Model):
     __tablename__ = 'tees'
-    __tableargs__ = (
-        db.UniqueConstraint('course_id', 'colour'), 
+    __table_args__ = (
+        db.UniqueConstraint('course_id', 'colour', name='course_colour_unique'),
     )
     id = db.Column(db.Integer, primary_key=True)
     course_id = db.Column(db.Integer, db.ForeignKey('courses.id'))
@@ -162,6 +162,21 @@ class Tee(db.Model):
         for hole in self.holes:
             total_yardage += hole.yardage
         return total_yardage
+
+    def format(self):
+        tee_format = {
+            'id': self.id,
+            'course_id': self.course_id,
+            'colour': self.colour
+        }
+        return tee_format
+
+    def detail_format(self):
+        tee_detail_format = self.format()
+        tee_detail_format['course_rating'] = self.course_rating
+        tee_detail_format['slope_rating'] = self.slope_rating
+        return tee_detail_format
+
 
 class Hole(db.Model):
     __tablename__ = 'holes'
