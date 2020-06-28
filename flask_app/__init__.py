@@ -11,7 +11,7 @@ migrate = Migrate()
 def create_app(test_config=None):
     """Initialize flask application"""
     app = Flask(__name__)
-    if test_config:
+    if test_config: #TODO clean this up 
         app.config["SQLALCHEMY_DATABASE_URI"] = test_config["TEST_DB_URI"]
         app.config["TESTING"] = True
     else:
@@ -34,6 +34,9 @@ def create_app(test_config=None):
 
     from flask_app.course_views import course_bp
     app.register_blueprint(course_bp)
+    from flask_app.user_views import user_bp
+    app.register_blueprint(user_bp)
+
     return app
 
 

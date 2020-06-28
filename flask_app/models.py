@@ -50,7 +50,9 @@ class Round(db.Model):
     @hybrid_property
     def handicap(self):
         """Property which returns calculated handicap differential value for the round"""
-        rating, slope = self.tee.course_rating, self.tee.slope_rating #TODO watch out for None vals
+        rating, slope = self.tee.course_rating, self.tee.slope_rating
+        if not rating or not slope:
+            return None
         return (slope / 113) * score - rating
 
     @hybrid_property
@@ -64,7 +66,8 @@ class Round(db.Model):
     @validates('tee_id')
     def validate_tee_id(self, key, tee_id):
         """Validate that the given tee is associated with the given course"""
-        if self.tee not in self.course.tees:
+        tee = Tee.query.get(tee_id)
+        if not self.course_id == tee.course_id:
             raise ValueError("Tee id and course id do not match.")
         return tee_id
 

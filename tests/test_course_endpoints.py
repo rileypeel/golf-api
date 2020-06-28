@@ -12,7 +12,7 @@ def sample_tee(db, course_id, colour="red"):
     db.session.commit()
     return tee1.id
 
-def sample_course(db, name="Fake golf course", location="fake location", tees=False):
+def sample_course(db, name="Fake golf course", location="fake location"):
     course = Course(name=name, location=location)
     db.session.add(course)
     db.session.commit()
@@ -182,7 +182,6 @@ class CourseTestCase(unittest.TestCase):
         self.assertEqual(len(holes), 2)
         #maybe do more assertions, but this will probably do
         #self.assertDictEqual(hole)
-
 
     def test_retrieve_hole_detail(self):
         """Test retrieval of hole detail"""
